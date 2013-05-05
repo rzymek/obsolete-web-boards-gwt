@@ -1,14 +1,17 @@
 package webboards.client.games.scs.ops;
 
-import java.util.Collection;
-
+import webboards.client.data.Board;
 import webboards.client.data.GameCtx;
 import webboards.client.games.Hex;
-import webboards.client.games.scs.SCSBoard;
-import webboards.client.games.scs.SCSColor;
 import webboards.client.games.scs.SCSCounter;
 import webboards.client.games.scs.SCSHex;
 import webboards.client.ops.Operation;
+import webboards.client.ops.RemoveOverlay;
+import webboards.client.overlay.ArrowOverlay;
+import webboards.client.overlay.ArtyTargetOverlay;
+import webboards.client.overlay.Attach;
+import webboards.client.overlay.Overlay;
+import webboards.client.overlay.OverlayLine;
 
 public class DeclareBarrage extends Operation {
 	private static final long serialVersionUID = 1L;
@@ -25,20 +28,37 @@ public class DeclareBarrage extends Operation {
 	}
 
 	@Override
-	public void draw(GameCtx ctx) {
-		SCSBoard board = (SCSBoard) ctx.board;
-		Collection<SCSCounter> attacking = board.getBarragesOn(target);
-		if (attacking.contains(arty)) {
-			board.undeclareBarrageOf(arty);
-			ctx.display.clearOds(arty.ref().toString());
-			ctx.display.clearArrow(PerformBarrage.getArrowId(arty));
-		} else {
-			board.declareBarrage(arty, target);
-			ctx.display.drawArrow(arty.getPosition(), target, PerformBarrage.getArrowId(arty), SCSColor.DELCARE.getColor());
-			SCSHex hex = (SCSHex) ctx.board.getInfo(target);
-			Integer value = (int) hex.applyBarrageModifiers(arty.getAttack());
-			ctx.display.drawOds(ctx.display.getCenter(target), value.toString(), arty.ref().toString());
+	public void updateBoard(Board board) {
+		SCSHex hex = (SCSHex) board.getInfo(target);
+		int value = (int) hex.applyBarrageModifiers(arty.getAttack());
+		
+		final Overlay artyTarget = new ArtyTargetOverlay(value);
+		if(ctx.side == arty.getOwner()) {
+			artyTarget.onClick = new Overlay.Handler() {
+				@Override
+				public Operation onClick(GameCtx ctx) {
+					if(ctx.selected == arty) {
+						return new RemoveOverlay(artyTarget);
+					}else{
+						return new PerformBarrage(arty, target);
+					}				
+				}
+			};
 		}
+		
+		hex.setStackOverlay(artyTarget, Attach.REMOVE_WHEN_MOVED);
+	}
+	@Override
+	public void draw(GameCtx ctx) {
+//		ctx.board.attach(target, artyTarget, Attach.REMOVE_WHEN_MOVED);
+//		artyTarget.attach(ctx.board, target, Attach.REMOVE_WHEN_MOVED);
+		
+		OverlayLine arrow = new ArrowOverlay();
+		arrow.attachStart(arty, Attach.MOVE_WITH);
+		arrow.attachEnd(target, Attach.REMOVE_WHEN_MOVED);
+		
+		ctx.display.drawOverlaysAt(target);
+		ctx.display.draw(arrow);
 	} 
   
 	@Override

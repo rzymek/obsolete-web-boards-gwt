@@ -15,6 +15,7 @@ import webboards.client.games.scs.bastogne.BastogneSide;
 import webboards.client.games.scs.ops.DeclareAttack;
 import webboards.client.games.scs.ops.DeclareBarrage;
 import webboards.client.ops.Operation;
+import webboards.client.overlay.ArtyTargetOverlay;
 
 public class SCSCounter extends CounterInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -124,7 +125,7 @@ public class SCSCounter extends CounterInfo implements Serializable {
 		return new DeclareAttack(from, target);
 	}
 
-	private Operation onBarrage(GameCtx ctx, List<CounterInfo> stack, Hex target) {		
+	private Operation onBarrage(GameCtx ctx, List<CounterInfo> stack, Hex target) {
 		return new DeclareBarrage(this, target);
 	}
 

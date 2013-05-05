@@ -12,6 +12,8 @@ import webboards.client.data.HexInfo;
 import webboards.client.games.Hex;
 import webboards.client.games.Position;
 import webboards.client.games.scs.bastogne.HexTraits;
+import webboards.client.overlay.Attach;
+import webboards.client.overlay.Overlay;
 
 public class SCSHex extends HexInfo {
 	private static final long serialVersionUID = 1L;
@@ -103,5 +105,9 @@ public class SCSHex extends HexInfo {
 			attack -= 1;
 		}
 		return attack;
+	}
+
+	public void setStackOverlay(Overlay overlay, Attach how) {
+		
 	}
 }
