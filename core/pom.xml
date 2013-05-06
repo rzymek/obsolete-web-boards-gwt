@@ -10,7 +10,7 @@
 	<parent>
 		<relativePath>../maven/module/pom.xml</relativePath>
 		<groupId>webboards</groupId>
-		<artifactId>module</artifactId>
+		<artifactId>xtend-module</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 
