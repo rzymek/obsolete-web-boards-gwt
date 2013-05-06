@@ -71,6 +71,7 @@
 								<configuration>
 									<sources>
 										<source>../core/src/main/java</source>
+										<source>../core/src/main/xtend-gen</source>
 									</sources>
 								</configuration>
 							</execution>
