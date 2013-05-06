@@ -34,6 +34,8 @@ import webboards.client.ex.WebBoardsException;
 import webboards.client.games.Hex;
 import webboards.client.games.Position;
 import webboards.client.games.scs.SCSSelectionHandler;
+import webboards.client.overlay.Overlay;
+import webboards.client.overlay.OverlayLine;
 import webboards.client.utils.Browser;
 import webboards.client.utils.Utils;
 
@@ -596,5 +598,17 @@ public class SVGDisplay extends BasicDisplay {
 	@Override
 	public void markUsed(CounterId ref) {
 		drawFromTemplate(getCenter(ref.toString()), "used", null, "used_"+ref);
+	}
+
+	@Override
+	public void draw(Overlay artyTarget) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(OverlayLine arrow) {
+		// TODO Auto-generated method stub
+		
 	}
 }

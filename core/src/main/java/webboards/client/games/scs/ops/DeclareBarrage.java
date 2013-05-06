@@ -33,7 +33,7 @@ public class DeclareBarrage extends Operation {
 		int value = (int) hex.applyBarrageModifiers(arty.getAttack());
 		
 		final Overlay artyTarget = new ArtyTargetOverlay(value);
-		if(ctx.side == arty.getOwner()) {
+//		if(ctx.side == arty.getOwner()) {
 			artyTarget.onClick = new Overlay.Handler() {
 				@Override
 				public Operation onClick(GameCtx ctx) {
@@ -44,7 +44,7 @@ public class DeclareBarrage extends Operation {
 					}				
 				}
 			};
-		}
+//		}
 		
 		hex.setStackOverlay(artyTarget, Attach.REMOVE_WHEN_MOVED);
 	}
@@ -57,7 +57,7 @@ public class DeclareBarrage extends Operation {
 		arrow.attachStart(arty, Attach.MOVE_WITH);
 		arrow.attachEnd(target, Attach.REMOVE_WHEN_MOVED);
 		
-		ctx.display.drawOverlaysAt(target);
+//		ctx.display.drawOverlaysAt(target);
 		ctx.display.draw(arrow);
 	} 
   
