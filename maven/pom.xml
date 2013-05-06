@@ -11,5 +11,8 @@
 		<module>gwt/pom.xml</module>
 		<module>module/pom.xml</module>
 		<module>appengine/pom.xml</module>
+		<module>xtend/pom.xml</module>
+		<module>xtend-gae/pom.xml</module>
+		<module>xtend-module/pom.xml</module>
 	</modules>
 </project>
