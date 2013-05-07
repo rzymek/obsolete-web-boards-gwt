@@ -40,7 +40,7 @@ public class ClientMenu extends SimplePanel {
 	private Grid menu;
 	
 	//@formatter:off
-	public MenuEntry[] entries = { 
+	public MenuEntry[] entries = {
 		new MenuEntry("Send msg") {
 			@Override
 			public void exec() {

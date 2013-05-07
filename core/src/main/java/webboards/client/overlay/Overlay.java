@@ -1,10 +1,9 @@
 package webboards.client.overlay;
 
 import java.io.Serializable;
+import java.util.List;
 
-import webboards.client.data.Board;
 import webboards.client.data.GameCtx;
-import webboards.client.games.Position;
 import webboards.client.ops.Operation;
 
 public class Overlay implements Serializable {
@@ -16,4 +15,9 @@ public class Overlay implements Serializable {
 
 	public Handler onClick;
 
+	public List<Attachable> attachedTo;
+
+	public void onAttachedToChange() {
+
+	}
 }
