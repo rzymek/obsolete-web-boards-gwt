@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/2.5.0/distro-source/core/src/gwt-module.dtd">
 <module rename-to="webboards">
+	<inherits name="com.google.gwt.user.theme.chrome.Chrome" />
+
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="org.vectomatic.libgwtsvg" />
 	<inherits name='no.eirikb.gwtchannelapi.GwtChannelApi' />
+
+	<inherits name="org.eclipse.xtend.lib.Lib" />
+	<inherits name="org.eclipse.xtend2.lib.Lib" />
+	<inherits name="org.eclipse.xtext.xbase.lib.Lib" />
+	<inherits name="com.google.common.collect.Collect" />
+	
 	<source path="client" />
 	<entry-point class="webboards.client.ClientEngine" />
 	${dev.module.config}

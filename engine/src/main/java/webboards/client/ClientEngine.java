@@ -3,8 +3,11 @@ package webboards.client;
 import org.vectomatic.dom.svg.impl.SVGImageElement;
 import org.vectomatic.dom.svg.impl.SVGSVGElement;
 
+import webboards.client.data.BoardListener;
+import webboards.client.data.CounterChangeEvent;
 import webboards.client.data.GameCtx;
 import webboards.client.data.GameInfo;
+import webboards.client.data.PositionChangeEvent;
 import webboards.client.display.BasicDisplay;
 import webboards.client.display.svg.SVGDisplay;
 import webboards.client.display.svg.SVGLowResZoomPan;
@@ -91,6 +94,18 @@ public class ClientEngine implements EntryPoint {
 		};
 		ctx.setInfo(info);
 		ctx.board = info.game.start(info.scenario);
+		ctx.board.addBoardListener(new BoardListener() {
+			
+			@Override
+			public void positionChanged(PositionChangeEvent e) {
+				Browser.console("positionChanged");
+			}
+			
+			@Override
+			public void counterChanged(CounterChangeEvent e) {
+				Browser.console("counterChanged");
+			}
+		});
 		SVGDisplay display = new SVGDisplay(svg, ctx);
 		menu = new ClientMenu(svg, ctx);
 		RootPanel.get("controls").add(new HistoryControls(ctx));

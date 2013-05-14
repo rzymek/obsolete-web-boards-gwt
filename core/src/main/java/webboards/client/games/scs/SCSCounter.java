@@ -62,9 +62,12 @@ public class SCSCounter extends CounterInfo implements Serializable {
 	}
 
 	@Override
-	public void flip() {
+	protected boolean flip() {
 		if(back != null) {
 			flipped = !flipped;
+			return true;
+		}else{
+			return false;
 		}
 	}
 	
