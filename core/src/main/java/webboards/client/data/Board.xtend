@@ -1,6 +1,6 @@
 package webboards.client.data
 
-import de.oehme.xtend.annotation.events.api.FiresEvent
+import de.oehme.xtend.annotation.events.FiresEvent
 import java.io.Serializable
 import java.util.ArrayList
 import java.util.Collections

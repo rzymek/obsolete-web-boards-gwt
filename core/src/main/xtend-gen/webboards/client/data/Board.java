@@ -1,7 +1,7 @@
 package webboards.client.data;
 
 import com.google.common.base.Objects;
-import de.oehme.xtend.annotation.events.api.FiresEvent;
+import de.oehme.xtend.annotation.events.FiresEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,17 +1,18 @@
 package webboards.client.data
 
 import webboards.client.games.Position
+import de.oehme.xtend.annotation.data.Immutable
 
+@Immutable
 class PositionChangeEvent {
 	Board board
 	Position position
-	new(Board b, Position p){}
 }
 
+@Immutable  
 class CounterChangeEvent {
 	Board board
 	CounterInfo counter
-	new(Board b, CounterInfo p){}
 }
 
 interface BoardListener {
