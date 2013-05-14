@@ -98,12 +98,12 @@ public class ClientEngine implements EntryPoint {
 			
 			@Override
 			public void positionChanged(PositionChangeEvent e) {
-				Browser.console("positionChanged");
+				ctx.display.alignStack(e.getPosition());
 			}
 			
 			@Override
 			public void counterChanged(CounterChangeEvent e) {
-				Browser.console("counterChanged");
+				ctx.display.update(e.getCounter().ref(), e.getCounter().getState());
 			}
 		});
 		SVGDisplay display = new SVGDisplay(svg, ctx);

@@ -18,12 +18,6 @@ public class Flip extends Operation implements Undoable {
 	}
 
 	@Override
-	public void draw(GameCtx ctx) {
-		CounterInfo counter = ctx.board.getInfo(counterRef);
-		ctx.display.update(counter.ref(), counter.getState());
-	}
-
-	@Override
 	public void updateBoard(Board board) {
 		CounterInfo counter = board.getInfo(counterRef);
 		board.flip(counter);
