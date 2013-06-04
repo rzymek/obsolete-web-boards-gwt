@@ -37,6 +37,13 @@ public abstract class Board implements Serializable {
   
   private Map<CounterId,CounterInfo> placed = null;
   
+  private HashMap<Hex,List<Overlay>> hexOverlays = new Function0<HashMap<Hex,List<Overlay>>>() {
+    public HashMap<Hex,List<Overlay>> apply() {
+      HashMap<Hex,List<Overlay>> _newHashMap = CollectionLiterals.<Hex, List<Overlay>>newHashMap();
+      return _newHashMap;
+    }
+  }.apply();
+  
   public Board() {
     HashMap<CounterId,CounterInfo> _hashMap = new HashMap<CounterId,CounterInfo>();
     this.counters = _hashMap;
@@ -188,13 +195,6 @@ public abstract class Board implements Serializable {
     Collection<CounterInfo> _unmodifiableCollection = Collections.<CounterInfo>unmodifiableCollection(_values);
     return _unmodifiableCollection;
   }
-  
-  private final HashMap<Hex,List<Overlay>> hexOverlays = new Function0<HashMap<Hex,List<Overlay>>>() {
-    public HashMap<Hex,List<Overlay>> apply() {
-      HashMap<Hex,List<Overlay>> _newHashMap = CollectionLiterals.<Hex, List<Overlay>>newHashMap();
-      return _newHashMap;
-    }
-  }.apply();
   
   public Collection<Overlay> overlaysAt(final Hex hex) {
     List<Overlay> _elvis = null;

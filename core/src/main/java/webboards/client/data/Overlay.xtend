@@ -3,8 +3,9 @@ package webboards.client.data
 import webboards.client.data.ref.CounterId
 import webboards.client.games.Position
 import com.google.common.base.Objects
+import java.io.Serializable
 
-abstract class Overlay {
+abstract class Overlay implements Serializable {
 	public val String id;
 
 	new(String id) {

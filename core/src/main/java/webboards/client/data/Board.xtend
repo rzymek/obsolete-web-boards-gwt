@@ -18,6 +18,7 @@ import webboards.client.games.scs.ops.CombatOverlay
 abstract class Board implements Serializable {
 	var Map<CounterId, CounterInfo> counters = null
 	var Map<CounterId, CounterInfo> placed = null
+	var HashMap<Hex, List<Overlay>> hexOverlays = newHashMap
 
 	new() {
 		counters = new HashMap<CounterId, CounterInfo>()
@@ -106,8 +107,6 @@ abstract class Board implements Serializable {
 	def getPlaced() {
 		Collections::unmodifiableCollection(placed.values)
 	}
-
-	val HashMap<Hex, List<Overlay>> hexOverlays = newHashMap
 
 	def overlaysAt(Hex hex) {
 		Collections::unmodifiableCollection(hexOverlays.get(hex) ?: emptyList)

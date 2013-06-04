@@ -1,9 +1,10 @@
 package webboards.client.data;
 
 import com.google.common.base.Objects;
+import java.io.Serializable;
 
 @SuppressWarnings("all")
-public abstract class Overlay {
+public abstract class Overlay implements Serializable {
   public final String id;
   
   public Overlay(final String id) {

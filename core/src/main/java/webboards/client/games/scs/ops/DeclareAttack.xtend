@@ -22,7 +22,7 @@ class DeclareAttack extends Operation {
 	}
 	
 	override updateBoard(Board board) {
-		val overlay = 
+		val overlay = 		
 			board.overlaysAt(target).filter[it instanceof CombatOverlay].head as CombatOverlay 
 			?: board.placeAt(new CombatOverlay(target), target)
 		overlay.toggle(board, from)
