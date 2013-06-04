@@ -61,6 +61,9 @@
 	<profiles>
 		<profile>
 			<id>dev</id>
+			<properties>
+				<dev.profile.active>true</dev.profile.active>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -104,6 +107,13 @@
 
 		<profile>
 			<id>prod</id>
+			<activation>
+				<property>
+					<name>dev.profile.active</name>
+					<value>false</value>
+				</property>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>webboards</groupId>
