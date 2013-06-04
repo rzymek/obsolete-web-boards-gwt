@@ -16,6 +16,7 @@ import webboards.client.data.PositionOverlay;
 import webboards.client.games.Hex;
 import webboards.client.games.Position;
 import webboards.client.games.scs.SCSBoard;
+import webboards.client.games.scs.SCSBoard.Odds;
 import webboards.client.games.scs.SCSHex;
 import webboards.client.games.scs.ops.LabeledOverlay;
 
@@ -69,8 +70,8 @@ public class CombatOverlay extends LabeledOverlay implements PositionOverlay {
           }
         };
       final Iterable<SCSHex> attacking = IterableExtensions.<Hex, SCSHex>map(this.from, _function);
-      int[] odds = SCSBoard.calculateOdds(targetHex, attacking, this.target);
-      List<int[]> _asList = Arrays.<int[]>asList(odds);
+      Odds odds = SCSBoard.calculateOdds(targetHex, attacking, this.target);
+      List<Odds> _asList = Arrays.<Odds>asList(odds);
       String _join = IterableExtensions.join(_asList, ":");
       _xblockexpression = (_join);
     }

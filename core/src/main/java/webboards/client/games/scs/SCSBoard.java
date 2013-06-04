@@ -143,7 +143,23 @@ public class SCSBoard extends Board implements Serializable {
 		return total;
 	}
 
-	public static int[] calculateOdds(SCSHex target, Iterable<SCSHex> attacking, Hex targetPosition) {
+	public static class Odds {
+		public final int a;
+		public final int b;
+
+		public Odds(int a, int b) {
+			super();
+			this.a = a;
+			this.b = b;
+		}
+
+		@Override
+		public String toString() {
+			return a + ":" + b;
+		}
+	}
+
+	public static Odds calculateOdds(SCSHex target, Iterable<SCSHex> attacking, Hex targetPosition) {
 		Collection<SCSCounter> defending = target.getUnits();
 		double defence = getDefenceRawSum(defending);
 		double defenceModifier = target.getDefenceCombatModifier();
@@ -155,8 +171,7 @@ public class SCSBoard extends Board implements Serializable {
 		}
 		int a = (int) Math.round(attack / smaller);
 		int b = (int) Math.round(defence / smaller);
-		int[] odds = { a, b };
-		return odds;
+		return new Odds(a,b);
 	}
 
 	public void showingResult(Hex targetRef, CombatResult result) {

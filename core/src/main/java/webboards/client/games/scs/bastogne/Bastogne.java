@@ -10,6 +10,7 @@ import webboards.client.games.Area;
 import webboards.client.games.Scenario;
 import webboards.client.games.scs.CombatResult;
 import webboards.client.games.scs.SCSBoard;
+import webboards.client.games.scs.SCSBoard.Odds;
 import webboards.client.games.scs.SCSHex;
 import webboards.client.games.scs.SCSMarker;
 
@@ -65,20 +66,20 @@ public class Bastogne implements Game  {
 		{"12   ","A1D1","D1r2","D1r2","D1r3","D1r3","D2r4","D2r6"},		
 	};//@formatter:on
 
-	public static CombatResult getCombatResult(int[] odds, int sum) {
+	public static CombatResult getCombatResult(Odds odds, int sum) {
 		int col = getCRTColumn(odds);
 		int row = sum - 1;
 		String value = CRT[row][col];
 		return new CombatResult(value);
 	}
 
-	private static int getCRTColumn(int[] odds) {
-		if (3 < odds[1]) {
+	private static int getCRTColumn(Odds odds) {
+		if (3 < odds.b) {
 			return 1;
-		} else if (odds[0] > 5) {
+		} else if (odds.a > 5) {
 			return 7;
 		}
-		String oddsValue = odds[0] + ":" + odds[1];
+		String oddsValue = odds.toString();
 		for (int col = 1; col < CRT[0].length; col++) {
 			if (oddsValue.equals(CRT[0][col].trim())) {
 				return col;

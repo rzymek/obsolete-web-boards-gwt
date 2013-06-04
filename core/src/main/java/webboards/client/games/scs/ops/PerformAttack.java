@@ -7,6 +7,7 @@ import webboards.client.data.GameCtx;
 import webboards.client.games.Hex;
 import webboards.client.games.scs.CombatResult;
 import webboards.client.games.scs.SCSBoard;
+import webboards.client.games.scs.SCSBoard.Odds;
 import webboards.client.games.scs.SCSColor;
 import webboards.client.games.scs.SCSHex;
 import webboards.client.games.scs.bastogne.Bastogne;
@@ -55,13 +56,13 @@ public class PerformAttack extends Operation {
 		SCSBoard board = (SCSBoard) ctx.board;
 		SCSHex target = board.getInfo(targetRef);
 		Collection<SCSHex> attacking = board.getInfo(attackingRef);
-		int[] odds = SCSBoard.calculateOdds(target, attacking, targetRef);
+		Odds odds = SCSBoard.calculateOdds(target, attacking, targetRef);
 		DiceRoll roll = new DiceRoll();
 		roll.dice = 2;
 		roll.sides = 6;
 		roll.serverExecute(ctx);
 		int sum = roll.getSum();
-		rollResult = String.valueOf(sum) + " - " + odds[0] + ":" + odds[1];
+		rollResult = String.valueOf(sum) + " - " + odds;
 		result = Bastogne.getCombatResult(odds, sum);
 	}
 

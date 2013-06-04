@@ -197,33 +197,31 @@ public abstract class Board implements Serializable {
   }.apply();
   
   public Collection<Overlay> overlaysAt(final Hex hex) {
-    Collection<Overlay> _elvis = null;
+    List<Overlay> _elvis = null;
     List<Overlay> _get = this.hexOverlays.get(hex);
-    Collection<Overlay> _unmodifiableCollection = Collections.<Overlay>unmodifiableCollection(_get);
-    if (_unmodifiableCollection != null) {
-      _elvis = _unmodifiableCollection;
+    if (_get != null) {
+      _elvis = _get;
     } else {
       List<Overlay> _emptyList = CollectionLiterals.<Overlay>emptyList();
-      _elvis = ObjectExtensions.<Collection<Overlay>>operator_elvis(_unmodifiableCollection, _emptyList);
+      _elvis = ObjectExtensions.<List<Overlay>>operator_elvis(_get, _emptyList);
     }
-    return _elvis;
+    Collection<Overlay> _unmodifiableCollection = Collections.<Overlay>unmodifiableCollection(_elvis);
+    return _unmodifiableCollection;
   }
   
   public <T extends Overlay> T placeAt(final T overlay, final Hex hex) {
     T _xblockexpression = null;
     {
-      List<Overlay> _elvis = null;
-      List<Overlay> _get = this.hexOverlays.get(hex);
-      if (_get != null) {
-        _elvis = _get;
-      } else {
+      List<Overlay> overlays = this.hexOverlays.get(hex);
+      boolean _equals = Objects.equal(overlays, null);
+      if (_equals) {
         ArrayList<Overlay> _newArrayList = CollectionLiterals.<Overlay>newArrayList();
-        _elvis = ObjectExtensions.<List<Overlay>>operator_elvis(_get, _newArrayList);
+        List<Overlay> _overlays = overlays = _newArrayList;
+        this.hexOverlays.put(hex, _overlays);
       }
-      final List<Overlay> overlays = _elvis;
       overlays.add(overlay);
       OverlayChangeEvent _overlayChangeEvent = new OverlayChangeEvent(this, overlay);
-      this.fireOverlayChanged(_overlayChangeEvent);
+      this.fireOverlayCreated(_overlayChangeEvent);
       _xblockexpression = (overlay);
     }
     return _xblockexpression;
@@ -242,6 +240,10 @@ public abstract class Board implements Serializable {
       }
       final List<Overlay> overlays = _elvis;
       overlays.remove(overlay);
+      boolean _isEmpty = overlays.isEmpty();
+      if (_isEmpty) {
+        this.hexOverlays.remove(hex);
+      }
       OverlayChangeEvent _overlayChangeEvent = new OverlayChangeEvent(this, overlay);
       this.fireOverlayRemoved(_overlayChangeEvent);
       _xblockexpression = (overlay);

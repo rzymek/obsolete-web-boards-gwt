@@ -63,9 +63,9 @@ abstract class Board implements Serializable {
 		}
 		move(to, counter)
 	}
-	
+
 	def flip(CounterInfo counter) {
-		if(counter.flip()) {
+		if (counter.flip()) {
 			fireCounterChanged(new CounterChangeEvent(this, counter))
 		}
 	}
@@ -78,7 +78,7 @@ abstract class Board implements Serializable {
 		counter.setPosition(to)
 		getInfo(to).pieces.add(counter)
 		firePositionChanged(new PositionChangeEvent(this, from))
-		firePositionChanged(new PositionChangeEvent(this, to))	
+		firePositionChanged(new PositionChangeEvent(this, to))
 	}
 
 	def getAdjacent(Hex p) {
@@ -106,24 +106,29 @@ abstract class Board implements Serializable {
 	def getPlaced() {
 		Collections::unmodifiableCollection(placed.values)
 	}
+
 	val HashMap<Hex, List<Overlay>> hexOverlays = newHashMap
-		
+
 	def overlaysAt(Hex hex) {
-	 	Collections::unmodifiableCollection(hexOverlays.get(hex)) ?: emptyList
+		Collections::unmodifiableCollection(hexOverlays.get(hex) ?: emptyList)
 	}
-	
+
 	def <T extends Overlay> placeAt(T overlay, Hex hex) {
-		val overlays = hexOverlays.get(hex) ?: newArrayList()
+		var overlays = hexOverlays.get(hex)
+		if (overlays == null)
+			hexOverlays.put(hex, overlays = newArrayList());
 		overlays.add(overlay)
-		fireOverlayChanged(new OverlayChangeEvent(this, overlay))
+		fireOverlayCreated(new OverlayChangeEvent(this, overlay))
 		overlay
 	}
-	
+
 	def removeOverlayAt(CombatOverlay overlay, Hex hex) {
 		val overlays = hexOverlays.get(hex) ?: emptyList
 		overlays.remove(overlay)
+		if (overlays.empty)
+			hexOverlays.remove(hex)
 		fireOverlayRemoved(new OverlayChangeEvent(this, overlay))
 		overlay
 	}
-	
+
 }
