@@ -7,9 +7,12 @@ import webboards.client.data.BoardListener;
 import webboards.client.data.CounterChangeEvent;
 import webboards.client.data.GameCtx;
 import webboards.client.data.GameInfo;
+import webboards.client.data.Overlay;
 import webboards.client.data.OverlayChangeEvent;
 import webboards.client.data.PositionChangeEvent;
+import webboards.client.data.PositionOverlay;
 import webboards.client.display.BasicDisplay;
+import webboards.client.display.VisualCoords;
 import webboards.client.display.svg.SVGDisplay;
 import webboards.client.display.svg.SVGLowResZoomPan;
 import webboards.client.display.svg.SVGZoomAndPanHandler;
@@ -17,6 +20,7 @@ import webboards.client.display.svg.edit.EditDisplay;
 import webboards.client.display.svg.edit.EmptyScenario;
 import webboards.client.ex.WebBoardsException;
 import webboards.client.games.scs.bastogne.Bastogne;
+import webboards.client.games.scs.ops.LabeledOverlay;
 import webboards.client.games.scs.ops.NextPhase;
 import webboards.client.menu.ClientMenu;
 import webboards.client.menu.HistoryControls;
@@ -109,15 +113,30 @@ public class ClientEngine implements EntryPoint {
 			
 			@Override
 			public void overlayChanged(OverlayChangeEvent e) {
+				if(e.getOverlay() instanceof LabeledOverlay) {
+					LabeledOverlay lOv = (LabeledOverlay) e.getOverlay();
+					ctx.display.updateText(lOv.id, lOv.label(ctx));
+				}
 			}
 
 			@Override
 			public void overlayRemoved(OverlayChangeEvent e) {
+				ctx.display.removeElement(e.getOverlay().id);
 			}
 
 			@Override
 			public void overlayCreated(OverlayChangeEvent e) {
-				
+				Overlay overlay = e.getOverlay();
+				if(overlay instanceof PositionOverlay) {
+					PositionOverlay posOv = (PositionOverlay) overlay;
+					VisualCoords center = ctx.display.getCenter(posOv.getPosition());
+					String text = null;
+					if(overlay instanceof LabeledOverlay) {
+						LabeledOverlay lOv = (LabeledOverlay) overlay;
+						text = lOv.label(ctx);
+					}
+					ctx.display.drawFromTemplate(center, overlay.getTemplateId(), text, overlay.id);
+				}
 			}
 		};
 		ctx.board.addCounterListener(boardListener);

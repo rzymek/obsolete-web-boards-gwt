@@ -1,8 +1,13 @@
 package webboards.client.games.scs.ops;
 
 import webboards.client.data.GameCtx;
+import webboards.client.data.Overlay;
 
 @SuppressWarnings("all")
-public interface LabeledOverlay {
+public abstract class LabeledOverlay extends Overlay {
+  public LabeledOverlay(final String id) {
+    super(id);
+  }
+  
   public abstract String label(final GameCtx ctx);
 }

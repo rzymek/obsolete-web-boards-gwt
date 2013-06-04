@@ -428,7 +428,7 @@ public class SVGDisplay extends BasicDisplay {
 		removeElement(ARROW_ID_PREFIX + "_" + id);
 	}
 
-	private void removeElement(String id) {
+	public void removeElement(String id) {
 		Element e = svg.getElementById(id);
 		if (e != null) {
 			e.removeFromParent();
@@ -447,7 +447,7 @@ public class SVGDisplay extends BasicDisplay {
 		drawFromTemplate(center, "target", text, "ods"+id);
 	}
 
-	private void drawFromTemplate(VisualCoords center, String templateId, String text, final String id) {
+	public void drawFromTemplate(VisualCoords center, String templateId, String text, final String id) {
 		SVGElement target = (SVGElement) svg.getElementById(id);
 		if (target == null) {
 			target = (SVGElement) svg.getElementById(templateId);
@@ -458,20 +458,26 @@ public class SVGDisplay extends BasicDisplay {
 		target.getStyle().setProperty("pointerEvents", "none");
 		target.getStyle().setVisibility(Visibility.VISIBLE);
 		if(text != null) {
-			SVGTSpanElement tspan = (SVGTSpanElement) target.getElementsByTagName("tspan").getItem(0);
-			Text item = (Text) tspan.getChildNodes().getItem(0);
-			item.setNodeValue(text);
+			setSpriteText(target, text);
 		}
 		target.setAttribute("transform", "translate(" + center.x + ", " + center.y + ")");
 		bringToTop(target);
 	}
 
+	private void setSpriteText(SVGElement target, String text) {
+		SVGTSpanElement tspan = (SVGTSpanElement) target.getElementsByTagName("tspan").getItem(0);
+		Text item = (Text) tspan.getChildNodes().getItem(0);
+		item.setNodeValue(text);
+	}
+	
+	public void updateText(String spriteId, String text) {
+		SVGElement e = getSVGElement(spriteId);
+		setSpriteText(e, text);
+	}
+
 	@Override
 	public void clearOds(String id) {
-		SVGElement target = (SVGElement) svg.getElementById("ods"+id);
-		if (target != null) {
-			target.removeFromParent();
-		}
+		removeElement("ods"+id);
 	}
 
 	/**

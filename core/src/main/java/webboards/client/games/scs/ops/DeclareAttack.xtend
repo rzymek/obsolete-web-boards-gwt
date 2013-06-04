@@ -27,7 +27,7 @@ class DeclareAttack extends Operation {
 			?: board.placeAt(new CombatOverlay(target), target)
 		overlay.toggle(board, from)
 	}
-
+/* 
 	override draw(GameCtx ctx) {
 		var board = (ctx.board as SCSBoard)
 		var attacking = board.getAttacking(target)
@@ -57,7 +57,7 @@ class DeclareAttack extends Operation {
 			ctx.display.drawOds(ctx.display.getCenter(target), text, target.SVGId)
 		}
 	}
-
+*/
 	override toString() {
 		'Declare attack ' + from + ' -> ' + target
 	}

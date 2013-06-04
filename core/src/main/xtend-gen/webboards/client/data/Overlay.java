@@ -1,5 +1,12 @@
 package webboards.client.data;
 
 @SuppressWarnings("all")
-public class Overlay {
+public abstract class Overlay {
+  public final String id;
+  
+  public Overlay(final String id) {
+    this.id = id;
+  }
+  
+  public abstract String getTemplateId();
 }

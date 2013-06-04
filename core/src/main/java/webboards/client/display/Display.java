@@ -38,4 +38,8 @@ public interface Display {
 	
 	void setText(String id, String value);
 	void setMode(Mode mode);
+	void drawFromTemplate(VisualCoords center, String templateId, String text,
+			String id);
+	void updateText(String spriteId, String text);
+	void removeElement(String id);
 }
