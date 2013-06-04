@@ -7,6 +7,7 @@ import webboards.client.data.BoardListener;
 import webboards.client.data.CounterChangeEvent;
 import webboards.client.data.GameCtx;
 import webboards.client.data.GameInfo;
+import webboards.client.data.OverlayChangeEvent;
 import webboards.client.data.PositionChangeEvent;
 import webboards.client.display.BasicDisplay;
 import webboards.client.display.svg.SVGDisplay;
@@ -94,7 +95,7 @@ public class ClientEngine implements EntryPoint {
 		};
 		ctx.setInfo(info);
 		ctx.board = info.game.start(info.scenario);
-		ctx.board.addBoardListener(new BoardListener() {
+		BoardListener boardListener = new BoardListener() {
 			
 			@Override
 			public void positionChanged(PositionChangeEvent e) {
@@ -105,7 +106,24 @@ public class ClientEngine implements EntryPoint {
 			public void counterChanged(CounterChangeEvent e) {
 				ctx.display.update(e.getCounter().ref(), e.getCounter().getState());
 			}
-		});
+			
+			@Override
+			public void overlayChanged(OverlayChangeEvent e) {
+			}
+
+			@Override
+			public void overlayRemoved(OverlayChangeEvent e) {
+			}
+
+			@Override
+			public void overlayCreated(OverlayChangeEvent e) {
+				
+			}
+		};
+		ctx.board.addCounterListener(boardListener);
+		ctx.board.addPositionListener(boardListener);
+		ctx.board.addOverlayListener(boardListener);
+		
 		SVGDisplay display = new SVGDisplay(svg, ctx);
 		menu = new ClientMenu(svg, ctx);
 		RootPanel.get("controls").add(new HistoryControls(ctx));

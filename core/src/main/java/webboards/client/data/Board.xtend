@@ -14,7 +14,7 @@ import webboards.client.games.Hex
 import webboards.client.games.Position
 import webboards.client.games.scs.ops.CombatOverlay
 
-@FiresEvent(typeof(BoardListener))
+@FiresEvent(#[typeof(CounterListener), typeof(PositionListener), typeof(OverlayListener)])
 abstract class Board implements Serializable {
 	var Map<CounterId, CounterInfo> counters = null
 	var Map<CounterId, CounterInfo> placed = null
@@ -115,12 +115,14 @@ abstract class Board implements Serializable {
 	def <T extends Overlay> placeAt(T overlay, Hex hex) {
 		val overlays = hexOverlays.get(hex) ?: newArrayList()
 		overlays.add(overlay)
+		fireOverlayChanged(new OverlayChangeEvent(this, overlay))
 		overlay
 	}
 	
 	def removeOverlayAt(CombatOverlay overlay, Hex hex) {
 		val overlays = hexOverlays.get(hex) ?: emptyList
 		overlays.remove(overlay)
+		fireOverlayRemoved(new OverlayChangeEvent(this, overlay))
 		overlay
 	}
 	

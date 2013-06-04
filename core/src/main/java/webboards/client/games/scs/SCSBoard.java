@@ -128,7 +128,7 @@ public class SCSBoard extends Board implements Serializable {
 		return defence;
 	}
 
-	public static double getAttackRawSum(Collection<SCSHex> list) {
+	public static double getAttackRawSum(Iterable<SCSHex> list) {
 		double total = 0;
 		for (SCSHex hex : list) {
 			int attack = 0;
@@ -143,7 +143,7 @@ public class SCSBoard extends Board implements Serializable {
 		return total;
 	}
 
-	public static int[] calculateOdds(SCSHex target, Collection<SCSHex> attacking, Hex targetPosition) {
+	public static int[] calculateOdds(SCSHex target, Iterable<SCSHex> attacking, Hex targetPosition) {
 		Collection<SCSCounter> defending = target.getUnits();
 		double defence = getDefenceRawSum(defending);
 		double defenceModifier = target.getDefenceCombatModifier();

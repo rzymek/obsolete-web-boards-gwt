@@ -9,13 +9,41 @@ class PositionChangeEvent {
 	Position position
 }
 
-@Immutable  
+@Immutable
 class CounterChangeEvent {
 	Board board
 	CounterInfo counter
 }
 
-interface BoardListener {
+@Immutable
+class OverlayChangeEvent {
+	Board board
+	Overlay overlay
+}
+
+interface CounterListener {
 	def void counterChanged(CounterChangeEvent e)
+}
+
+interface PositionListener {
 	def void positionChanged(PositionChangeEvent e)
+}
+
+interface OverlayListener {
+	def void overlayChanged(OverlayChangeEvent e)
+	def void overlayRemoved(OverlayChangeEvent e)
+	def void overlayCreated(OverlayChangeEvent e)
+}
+
+abstract class BoardListener implements CounterListener, PositionListener, OverlayListener {
+	
+	override counterChanged(CounterChangeEvent e) {
+	}
+	
+	override positionChanged(PositionChangeEvent e) {
+	}
+	
+	override overlayChanged(OverlayChangeEvent e) {
+	}
+	
 }

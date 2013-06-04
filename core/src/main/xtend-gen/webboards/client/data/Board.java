@@ -15,19 +15,22 @@ import java.util.Set;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Functions.Function0;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
-import webboards.client.data.BoardListener;
 import webboards.client.data.CounterChangeEvent;
 import webboards.client.data.CounterInfo;
+import webboards.client.data.CounterListener;
 import webboards.client.data.HexInfo;
 import webboards.client.data.Overlay;
+import webboards.client.data.OverlayChangeEvent;
+import webboards.client.data.OverlayListener;
 import webboards.client.data.PositionChangeEvent;
+import webboards.client.data.PositionListener;
 import webboards.client.data.ref.CounterId;
 import webboards.client.ex.WebBoardsException;
 import webboards.client.games.Hex;
 import webboards.client.games.Position;
 import webboards.client.games.scs.ops.CombatOverlay;
 
-@FiresEvent(BoardListener.class)
+@FiresEvent({ CounterListener.class, PositionListener.class, OverlayListener.class })
 @SuppressWarnings("all")
 public abstract class Board implements Serializable {
   private Map<CounterId,CounterInfo> counters = null;
@@ -219,6 +222,8 @@ public abstract class Board implements Serializable {
       }
       final List<Overlay> overlays = _elvis;
       overlays.add(overlay);
+      OverlayChangeEvent _overlayChangeEvent = new OverlayChangeEvent(this, overlay);
+      this.fireOverlayChanged(_overlayChangeEvent);
       _xblockexpression = (overlay);
     }
     return _xblockexpression;
@@ -237,36 +242,81 @@ public abstract class Board implements Serializable {
       }
       final List<Overlay> overlays = _elvis;
       overlays.remove(overlay);
+      OverlayChangeEvent _overlayChangeEvent = new OverlayChangeEvent(this, overlay);
+      this.fireOverlayRemoved(_overlayChangeEvent);
       _xblockexpression = (overlay);
     }
     return _xblockexpression;
   }
   
-  private List<BoardListener> _boardListeners = new ArrayList<BoardListener>();
-  
-  public void firePositionChanged(final PositionChangeEvent positionChangeEvent) {
-    if(_boardListeners == null) return;
-    for(BoardListener listener : _boardListeners) {
-    	listener.positionChanged(positionChangeEvent);
-    }
-    
-  }
+  private List<CounterListener> _counterListeners = new ArrayList<CounterListener>();
   
   public void fireCounterChanged(final CounterChangeEvent counterChangeEvent) {
-    if(_boardListeners == null) return;
-    for(BoardListener listener : _boardListeners) {
+    for(CounterListener listener : _counterListeners) {
     	listener.counterChanged(counterChangeEvent);
     }
     
   }
   
-  public void addBoardListener(final BoardListener listener) {
-    _boardListeners.add(listener);
+  public void addCounterListener(final CounterListener listener) {
+    _counterListeners.add(listener);
     
   }
   
-  public void removeBoardListener(final BoardListener listener) {
-    _boardListeners.remove(listener);
+  public void removeCounterListener(final CounterListener listener) {
+    _counterListeners.remove(listener);
+    
+  }
+  
+  private List<PositionListener> _positionListeners = new ArrayList<PositionListener>();
+  
+  public void firePositionChanged(final PositionChangeEvent positionChangeEvent) {
+    for(PositionListener listener : _positionListeners) {
+    	listener.positionChanged(positionChangeEvent);
+    }
+    
+  }
+  
+  public void addPositionListener(final PositionListener listener) {
+    _positionListeners.add(listener);
+    
+  }
+  
+  public void removePositionListener(final PositionListener listener) {
+    _positionListeners.remove(listener);
+    
+  }
+  
+  private List<OverlayListener> _overlayListeners = new ArrayList<OverlayListener>();
+  
+  public void fireOverlayRemoved(final OverlayChangeEvent overlayChangeEvent) {
+    for(OverlayListener listener : _overlayListeners) {
+    	listener.overlayRemoved(overlayChangeEvent);
+    }
+    
+  }
+  
+  public void fireOverlayCreated(final OverlayChangeEvent overlayChangeEvent) {
+    for(OverlayListener listener : _overlayListeners) {
+    	listener.overlayCreated(overlayChangeEvent);
+    }
+    
+  }
+  
+  public void fireOverlayChanged(final OverlayChangeEvent overlayChangeEvent) {
+    for(OverlayListener listener : _overlayListeners) {
+    	listener.overlayChanged(overlayChangeEvent);
+    }
+    
+  }
+  
+  public void addOverlayListener(final OverlayListener listener) {
+    _overlayListeners.add(listener);
+    
+  }
+  
+  public void removeOverlayListener(final OverlayListener listener) {
+    _overlayListeners.remove(listener);
     
   }
 }
