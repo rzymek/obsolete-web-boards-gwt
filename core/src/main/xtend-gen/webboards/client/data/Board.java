@@ -12,15 +12,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Functions.Function0;
+import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import webboards.client.data.BoardListener;
 import webboards.client.data.CounterChangeEvent;
 import webboards.client.data.CounterInfo;
 import webboards.client.data.HexInfo;
+import webboards.client.data.Overlay;
 import webboards.client.data.PositionChangeEvent;
 import webboards.client.data.ref.CounterId;
 import webboards.client.ex.WebBoardsException;
 import webboards.client.games.Hex;
 import webboards.client.games.Position;
+import webboards.client.games.scs.ops.CombatOverlay;
 
 @FiresEvent(BoardListener.class)
 @SuppressWarnings("all")
@@ -179,6 +184,62 @@ public abstract class Board implements Serializable {
     Collection<CounterInfo> _values = this.placed.values();
     Collection<CounterInfo> _unmodifiableCollection = Collections.<CounterInfo>unmodifiableCollection(_values);
     return _unmodifiableCollection;
+  }
+  
+  private final HashMap<Hex,List<Overlay>> hexOverlays = new Function0<HashMap<Hex,List<Overlay>>>() {
+    public HashMap<Hex,List<Overlay>> apply() {
+      HashMap<Hex,List<Overlay>> _newHashMap = CollectionLiterals.<Hex, List<Overlay>>newHashMap();
+      return _newHashMap;
+    }
+  }.apply();
+  
+  public Collection<Overlay> overlaysAt(final Hex hex) {
+    Collection<Overlay> _elvis = null;
+    List<Overlay> _get = this.hexOverlays.get(hex);
+    Collection<Overlay> _unmodifiableCollection = Collections.<Overlay>unmodifiableCollection(_get);
+    if (_unmodifiableCollection != null) {
+      _elvis = _unmodifiableCollection;
+    } else {
+      List<Overlay> _emptyList = CollectionLiterals.<Overlay>emptyList();
+      _elvis = ObjectExtensions.<Collection<Overlay>>operator_elvis(_unmodifiableCollection, _emptyList);
+    }
+    return _elvis;
+  }
+  
+  public <T extends Overlay> T placeAt(final T overlay, final Hex hex) {
+    T _xblockexpression = null;
+    {
+      List<Overlay> _elvis = null;
+      List<Overlay> _get = this.hexOverlays.get(hex);
+      if (_get != null) {
+        _elvis = _get;
+      } else {
+        ArrayList<Overlay> _newArrayList = CollectionLiterals.<Overlay>newArrayList();
+        _elvis = ObjectExtensions.<List<Overlay>>operator_elvis(_get, _newArrayList);
+      }
+      final List<Overlay> overlays = _elvis;
+      overlays.add(overlay);
+      _xblockexpression = (overlay);
+    }
+    return _xblockexpression;
+  }
+  
+  public CombatOverlay removeOverlayAt(final CombatOverlay overlay, final Hex hex) {
+    CombatOverlay _xblockexpression = null;
+    {
+      List<Overlay> _elvis = null;
+      List<Overlay> _get = this.hexOverlays.get(hex);
+      if (_get != null) {
+        _elvis = _get;
+      } else {
+        List<Overlay> _emptyList = CollectionLiterals.<Overlay>emptyList();
+        _elvis = ObjectExtensions.<List<Overlay>>operator_elvis(_get, _emptyList);
+      }
+      final List<Overlay> overlays = _elvis;
+      overlays.remove(overlay);
+      _xblockexpression = (overlay);
+    }
+    return _xblockexpression;
   }
   
   private List<BoardListener> _boardListeners = new ArrayList<BoardListener>();

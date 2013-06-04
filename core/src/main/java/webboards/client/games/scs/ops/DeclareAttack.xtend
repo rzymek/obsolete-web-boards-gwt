@@ -1,5 +1,7 @@
 package webboards.client.games.scs.ops
 
+import java.util.Arrays
+import webboards.client.data.Board
 import webboards.client.data.GameCtx
 import webboards.client.games.Hex
 import webboards.client.games.scs.SCSBoard
@@ -8,7 +10,6 @@ import webboards.client.games.scs.SCSHex
 import webboards.client.ops.Operation
 
 class DeclareAttack extends Operation {
-	static val serialVersionUID = 1L
 	var Hex from
 	var Hex target
 
@@ -18,6 +19,13 @@ class DeclareAttack extends Operation {
 	new(Hex from, Hex target) {
 		this.from = from
 		this.target = target
+	}
+	
+	override updateBoard(Board board) {
+		val overlay = 
+			board.overlaysAt(target).filter[it instanceof CombatOverlay].head as CombatOverlay 
+			?: board.placeAt(new CombatOverlay(target), target)
+		overlay.toggle(board, from)
 	}
 
 	override draw(GameCtx ctx) {
@@ -45,7 +53,7 @@ class DeclareAttack extends Operation {
 			ctx.display.clearOds(target.SVGId)
 		} else {
 			var odds = SCSBoard::calculateOdds(targetHex, attacking, target)
-			var text = odds.join(':')
+			var text = Arrays::asList(odds).join(':')
 			ctx.display.drawOds(ctx.display.getCenter(target), text, target.SVGId)
 		}
 	}

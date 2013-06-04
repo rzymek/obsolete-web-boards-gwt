@@ -6,11 +6,13 @@ import java.util.ArrayList
 import java.util.Collections
 import java.util.HashMap
 import java.util.HashSet
+import java.util.List
 import java.util.Map
 import webboards.client.data.ref.CounterId
 import webboards.client.ex.WebBoardsException
 import webboards.client.games.Hex
 import webboards.client.games.Position
+import webboards.client.games.scs.ops.CombatOverlay
 
 @FiresEvent(typeof(BoardListener))
 abstract class Board implements Serializable {
@@ -104,4 +106,22 @@ abstract class Board implements Serializable {
 	def getPlaced() {
 		Collections::unmodifiableCollection(placed.values)
 	}
+	val HashMap<Hex, List<Overlay>> hexOverlays = newHashMap
+		
+	def overlaysAt(Hex hex) {
+	 	Collections::unmodifiableCollection(hexOverlays.get(hex)) ?: emptyList
+	}
+	
+	def <T extends Overlay> placeAt(T overlay, Hex hex) {
+		val overlays = hexOverlays.get(hex) ?: newArrayList()
+		overlays.add(overlay)
+		overlay
+	}
+	
+	def removeOverlayAt(CombatOverlay overlay, Hex hex) {
+		val overlays = hexOverlays.get(hex) ?: emptyList
+		overlays.remove(overlay)
+		overlay
+	}
+	
 }

@@ -1,22 +1,26 @@
 package webboards.client.games.scs.ops;
 
+import java.util.Arrays;
 import java.util.Collection;
-import org.eclipse.xtext.xbase.lib.Conversions;
+import java.util.List;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.ObjectExtensions;
+import webboards.client.data.Board;
 import webboards.client.data.GameCtx;
 import webboards.client.data.HexInfo;
+import webboards.client.data.Overlay;
 import webboards.client.display.Color;
 import webboards.client.display.VisualCoords;
 import webboards.client.games.Hex;
 import webboards.client.games.scs.SCSBoard;
 import webboards.client.games.scs.SCSColor;
 import webboards.client.games.scs.SCSHex;
+import webboards.client.games.scs.ops.CombatOverlay;
 import webboards.client.ops.Operation;
 
 @SuppressWarnings("all")
 public class DeclareAttack extends Operation {
-  private final static long serialVersionUID = 1L;
-  
   private Hex from;
   
   private Hex target;
@@ -28,6 +32,28 @@ public class DeclareAttack extends Operation {
   public DeclareAttack(final Hex from, final Hex target) {
     this.from = from;
     this.target = target;
+  }
+  
+  public void updateBoard(final Board board) {
+    CombatOverlay _elvis = null;
+    Collection<Overlay> _overlaysAt = board.overlaysAt(this.target);
+    final Function1<Overlay,Boolean> _function = new Function1<Overlay,Boolean>() {
+        public Boolean apply(final Overlay it) {
+          return Boolean.valueOf((it instanceof CombatOverlay));
+        }
+      };
+    Iterable<Overlay> _filter = IterableExtensions.<Overlay>filter(_overlaysAt, _function);
+    Overlay _head = IterableExtensions.<Overlay>head(_filter);
+    if (((CombatOverlay) _head) != null) {
+      _elvis = ((CombatOverlay) _head);
+    } else {
+      CombatOverlay _combatOverlay = new CombatOverlay(this.target);
+      CombatOverlay _placeAt = board.<CombatOverlay>placeAt(_combatOverlay, this.target);
+      _elvis = ObjectExtensions.<CombatOverlay>operator_elvis(
+        ((CombatOverlay) _head), _placeAt);
+    }
+    final CombatOverlay overlay = _elvis;
+    overlay.toggle(board, this.from);
   }
   
   public void draw(final GameCtx ctx) {
@@ -65,8 +91,8 @@ public class DeclareAttack extends Operation {
       ctx.display.clearOds(_sVGId);
     } else {
       int[] odds = SCSBoard.calculateOdds(targetHex, attacking, target);
-      final int[] _converted_odds = (int[])odds;
-      String text = IterableExtensions.join(((Iterable<? extends Object>)Conversions.doWrapArray(_converted_odds)), ":");
+      List<int[]> _asList = Arrays.<int[]>asList(odds);
+      String text = IterableExtensions.join(_asList, ":");
       VisualCoords _center = ctx.display.getCenter(target);
       String _sVGId_1 = target.getSVGId();
       ctx.display.drawOds(_center, text, _sVGId_1);
