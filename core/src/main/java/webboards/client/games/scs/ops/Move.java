@@ -24,15 +24,15 @@ public class Move extends Operation implements Undoable {
 	}
 
 	@Override
-	public void updateBoard(Board board) {
-		CounterInfo counter = board.getInfo(counterRef);
-		board.move(to, counter);
+	public void updateBoard(GameCtx ctx) {
+		CounterInfo counter = ctx.board.getInfo(counterRef);
+		ctx.board.move(to, counter);
 	}
 
 	@Override
-	public void undoUpdate(Board board) {
-		CounterInfo counter = board.getInfo(counterRef);
-		board.move(from, counter);
+	public void undoUpdate(GameCtx ctx) {
+		CounterInfo counter = ctx.board.getInfo(counterRef);
+		ctx.board.move(from, counter);
 	}
 
 	@Override

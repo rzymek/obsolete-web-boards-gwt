@@ -1,6 +1,5 @@
 package webboards.client.games.scs.ops;
 
-import webboards.client.data.Board;
 import webboards.client.data.GameCtx;
 import webboards.client.games.TurnPhase;
 import webboards.client.games.scs.SCSBoard;
@@ -14,8 +13,8 @@ public class NextPhase extends Operation implements Undoable, ClearScreen {
 	private String desc = "";
 
 	@Override
-	public void updateBoard(Board b) {
-		SCSBoard board = (SCSBoard) b;
+	public void updateBoard(GameCtx ctx) {
+		SCSBoard board = (SCSBoard) ctx.board;
 		desc = TurnSequence.PHASES[board.phase].toString();
 		board.phase++;
 		if (board.phase >= TurnSequence.PHASES.length) {
@@ -39,8 +38,8 @@ public class NextPhase extends Operation implements Undoable, ClearScreen {
 	}
 		
 	@Override
-	public void undoUpdate(Board b) {
-		SCSBoard board = (SCSBoard) b;
+	public void undoUpdate(GameCtx ctx) {
+		SCSBoard board = (SCSBoard) ctx.board;
 		if(board.turn <= 0 && board.phase <= 0) {
 			return;
 		}

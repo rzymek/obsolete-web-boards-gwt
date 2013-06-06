@@ -9,7 +9,7 @@ public abstract class Operation implements Serializable {
 	private static final long serialVersionUID = 2L;
 	public int index;
 
-	public void updateBoard(Board board) {
+	public void updateBoard(GameCtx ctx) {
 	}
 
 	public void drawDetails(GameCtx ctx) {
@@ -29,6 +29,6 @@ public abstract class Operation implements Serializable {
 
 	public void undoDraw(GameCtx ctx) {
 	}
-	public void undoUpdate(Board board) {
+	public void undoUpdate(GameCtx board) {
 	}
 }

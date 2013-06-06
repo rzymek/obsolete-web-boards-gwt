@@ -37,7 +37,7 @@ public class HistoryControls extends Composite {
 	private void back() {
 		if (ctx.getPosition() > 0) {
 			Operation last = ctx.ops.get(ctx.getPosition());
-			last.undoUpdate(ctx.board);
+			last.undoUpdate(ctx);
 			last.undoDraw(ctx);
 			ctx.setPosition(ctx.getPosition() - 1);
 		}
@@ -52,7 +52,7 @@ public class HistoryControls extends Composite {
 	private boolean doForward() {
 		if (ctx.getPosition() < ctx.ops.size() - 1) {
 			ctx.setPosition(ctx.getPosition() + 1);
-			ctx.ops.get(ctx.getPosition()).updateBoard(ctx.board);
+			ctx.ops.get(ctx.getPosition()).updateBoard(ctx);
 			ctx.ops.get(ctx.getPosition()).draw(ctx);
 			ctx.ops.get(ctx.getPosition()).drawDetails(ctx);
 			return true;

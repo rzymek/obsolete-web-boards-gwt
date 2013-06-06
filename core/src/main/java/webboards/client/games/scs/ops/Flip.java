@@ -1,13 +1,11 @@
 package webboards.client.games.scs.ops;
 
-import webboards.client.data.Board;
 import webboards.client.data.CounterInfo;
 import webboards.client.data.GameCtx;
 import webboards.client.data.ref.CounterId;
 import webboards.client.ops.Operation;
-import webboards.client.ops.Undoable;
 
-public class Flip extends Operation implements Undoable {
+public class Flip extends Operation{
 	private static final long serialVersionUID = 1L;
 	private CounterId counterRef;
 	protected Flip() {
@@ -18,9 +16,9 @@ public class Flip extends Operation implements Undoable {
 	}
 
 	@Override
-	public void updateBoard(Board board) {
-		CounterInfo counter = board.getInfo(counterRef);
-		board.flip(counter);
+	public void updateBoard(GameCtx ctx) {
+		CounterInfo counter = ctx.board.getInfo(counterRef);
+		ctx.board.flip(counter);
 	}
 
 	@Override
@@ -29,8 +27,8 @@ public class Flip extends Operation implements Undoable {
 	}
 	
 	@Override
-	public void undoUpdate(Board board) {
-		updateBoard(board);
+	public void undoUpdate(GameCtx ctx) {
+		updateBoard(ctx);
 	}
 	@Override
 	public void undoDraw(GameCtx ctx) {

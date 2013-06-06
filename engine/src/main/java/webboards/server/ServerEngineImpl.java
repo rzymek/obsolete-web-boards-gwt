@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import webboards.client.data.Board;
+import webboards.client.data.GameCtx;
 import webboards.client.data.GameInfo;
 import webboards.client.data.Side;
 import webboards.client.ex.ConcurrentOpException;
@@ -154,8 +155,8 @@ public class ServerEngineImpl extends RemoteServiceServlet implements ServerEngi
 				final String user = getUser();
 				final Side side = getPlayer(getPlayers(table), user).side;
 				Board board = getCurrentBoard(tid);
-
-				op.updateBoard(board);
+				GameCtx ctx = new ServerGameCtx(board);
+				op.updateBoard(ctx);
 				op.serverExecute(new ServerContext(board));
 
 				OperationEntity e = new OperationEntity(table);
@@ -185,9 +186,10 @@ public class ServerEngineImpl extends RemoteServiceServlet implements ServerEngi
 		board = table.game.start(table.scenario);
 		List<Operation> ops = loadOps(tid);
 		ServerContext ctx = new ServerContext(board);
+		GameCtx gctx = new ServerGameCtx(board);
 		for (Operation op : ops) {
 			log.fine(tid + " executing: " + op);
-			op.updateBoard(board);
+			op.updateBoard(gctx);
 			op.serverExecute(ctx);
 		}
 		log.fine(tid + " from db updated.");

@@ -10,4 +10,9 @@ public abstract class LabeledOverlay extends Overlay {
   }
   
   public abstract String label(final GameCtx ctx);
+  
+  public void update(final GameCtx ctx) {
+    String _label = this.label(ctx);
+    ctx.display.updateText(this.id, _label);
+  }
 }
