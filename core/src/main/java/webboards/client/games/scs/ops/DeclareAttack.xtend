@@ -1,12 +1,7 @@
-package webboards.client.games.scs.ops
+                                                                                                                  package webboards.client.games.scs.ops
 
-import java.util.Arrays
 import webboards.client.data.Board
-import webboards.client.data.GameCtx
 import webboards.client.games.Hex
-import webboards.client.games.scs.SCSBoard
-import webboards.client.games.scs.SCSColor
-import webboards.client.games.scs.SCSHex
 import webboards.client.ops.Operation
 
 class DeclareAttack extends Operation {
@@ -22,9 +17,10 @@ class DeclareAttack extends Operation {
 	}
 	
 	override updateBoard(Board board) {
-		val overlay = 		
-			board.overlaysAt(target).filter[it instanceof CombatOverlay].head as CombatOverlay 
-			?: board.placeAt(new CombatOverlay(target), target)
+		var overlay = board.overlaysAt(target).filter[it instanceof CombatOverlay].head as CombatOverlay
+		if(overlay == null) {
+			overlay = board.placeAt(new CombatOverlay(target), target);
+		}
 		overlay.toggle(board, from)
 	}
 /* 

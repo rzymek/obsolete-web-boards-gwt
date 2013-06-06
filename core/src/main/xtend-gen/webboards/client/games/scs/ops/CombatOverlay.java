@@ -47,7 +47,7 @@ public class CombatOverlay extends LabeledOverlay implements PositionOverlay {
       this.from.remove(hex);
       boolean _isEmpty = this.from.isEmpty();
       if (_isEmpty) {
-        board.removeOverlayAt(this, hex);
+        board.removeOverlayAt(this, this.target);
         return;
       }
     } else {

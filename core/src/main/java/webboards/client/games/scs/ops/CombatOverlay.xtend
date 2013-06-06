@@ -23,7 +23,7 @@ class CombatOverlay extends LabeledOverlay implements PositionOverlay {
 		if(from.contains(hex)) {
 			from.remove(hex)
 			if (from.empty) {				
-				board.removeOverlayAt(this, hex)
+				board.removeOverlayAt(this, target)
 				return				
 			}		
 		}else{

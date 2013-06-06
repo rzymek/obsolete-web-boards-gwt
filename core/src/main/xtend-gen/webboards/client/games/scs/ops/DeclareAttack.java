@@ -1,9 +1,9 @@
 package webboards.client.games.scs.ops;
 
+import com.google.common.base.Objects;
 import java.util.Collection;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import webboards.client.data.Board;
 import webboards.client.data.Overlay;
 import webboards.client.games.Hex;
@@ -26,7 +26,6 @@ public class DeclareAttack extends Operation {
   }
   
   public void updateBoard(final Board board) {
-    CombatOverlay _elvis = null;
     Collection<Overlay> _overlaysAt = board.overlaysAt(this.target);
     final Function1<Overlay,Boolean> _function = new Function1<Overlay,Boolean>() {
         public Boolean apply(final Overlay it) {
@@ -35,15 +34,13 @@ public class DeclareAttack extends Operation {
       };
     Iterable<Overlay> _filter = IterableExtensions.<Overlay>filter(_overlaysAt, _function);
     Overlay _head = IterableExtensions.<Overlay>head(_filter);
-    if (((CombatOverlay) _head) != null) {
-      _elvis = ((CombatOverlay) _head);
-    } else {
+    CombatOverlay overlay = ((CombatOverlay) _head);
+    boolean _equals = Objects.equal(overlay, null);
+    if (_equals) {
       CombatOverlay _combatOverlay = new CombatOverlay(this.target);
       CombatOverlay _placeAt = board.<CombatOverlay>placeAt(_combatOverlay, this.target);
-      _elvis = ObjectExtensions.<CombatOverlay>operator_elvis(
-        ((CombatOverlay) _head), _placeAt);
+      overlay = _placeAt;
     }
-    final CombatOverlay overlay = _elvis;
     overlay.toggle(board, this.from);
   }
   
