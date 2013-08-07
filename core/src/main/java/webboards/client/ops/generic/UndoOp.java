@@ -1,6 +1,5 @@
 package webboards.client.ops.generic;
 
-import webboards.client.data.Board;
 import webboards.client.data.GameCtx;
 import webboards.client.ops.Operation;
 import webboards.client.ops.Undoable;
@@ -20,8 +19,8 @@ public class UndoOp extends Operation implements Undoable {
 	}
 
 	@Override
-	public void updateBoard(Board board) {
-		op.undoUpdate(board);
+	public void updateBoard(GameCtx ctx) {
+		op.undoUpdate(ctx);
 	}
 
 	@Override

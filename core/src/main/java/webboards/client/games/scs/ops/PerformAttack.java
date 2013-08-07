@@ -2,7 +2,6 @@ package webboards.client.games.scs.ops;
 
 import java.util.Collection;
 
-import webboards.client.data.Board;
 import webboards.client.data.GameCtx;
 import webboards.client.games.Hex;
 import webboards.client.games.scs.CombatResult;
@@ -48,7 +47,7 @@ public class PerformAttack extends Operation {
 	}
 
 	@Override
-	public void updateBoard(Board b) {
+	public void updateBoard(GameCtx ctx) {
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import com.google.common.base.Objects;
 import java.util.Collection;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import webboards.client.data.Board;
+import webboards.client.data.GameCtx;
 import webboards.client.data.Overlay;
 import webboards.client.games.Hex;
 import webboards.client.games.scs.ops.CombatOverlay;
@@ -25,8 +25,8 @@ public class DeclareAttack extends Operation {
     this.target = target;
   }
   
-  public void updateBoard(final Board board) {
-    Collection<Overlay> _overlaysAt = board.overlaysAt(this.target);
+  public void updateBoard(final GameCtx ctx) {
+    Collection<Overlay> _overlaysAt = ctx.board.overlaysAt(this.target);
     final Function1<Overlay,Boolean> _function = new Function1<Overlay,Boolean>() {
         public Boolean apply(final Overlay it) {
           return Boolean.valueOf((it instanceof CombatOverlay));
@@ -37,11 +37,11 @@ public class DeclareAttack extends Operation {
     CombatOverlay overlay = ((CombatOverlay) _head);
     boolean _equals = Objects.equal(overlay, null);
     if (_equals) {
-      CombatOverlay _combatOverlay = new CombatOverlay(this.target);
-      CombatOverlay _placeAt = board.<CombatOverlay>placeAt(_combatOverlay, this.target);
+      CombatOverlay _combatOverlay = new CombatOverlay(ctx, this.target);
+      CombatOverlay _placeAt = ctx.board.<CombatOverlay>placeAt(_combatOverlay, this.target);
       overlay = _placeAt;
     }
-    overlay.toggle(board, this.from);
+    overlay.toggle(ctx, this.from);
   }
   
   /**

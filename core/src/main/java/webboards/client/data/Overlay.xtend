@@ -17,7 +17,7 @@ abstract class Overlay implements Serializable {
 	override hashCode() {
 		Objects::hashCode(id)
 	}
-	
+
 	override equals(Object obj) {
 		if (obj instanceof Overlay) {
 			id == (obj as Overlay).id
@@ -26,12 +26,23 @@ abstract class Overlay implements Serializable {
 		}
 	}
 
+	def void create(GameCtx ctx) {
+	}
+
+	def void update(GameCtx ctx) {
+	}
+
+	def void delete(GameCtx ctx) {
+		ctx.display.removeElement(id);
+	}
 }
 
+//-------------------------------------------------------------
 interface PositionOverlay {
 	def Position getPosition()
 }
 
+//-------------------------------------------------------------
 interface CounterOverlay {
 	def CounterId getCounterId()
 }

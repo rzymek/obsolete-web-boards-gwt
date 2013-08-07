@@ -113,30 +113,17 @@ public class ClientEngine implements EntryPoint {
 			
 			@Override
 			public void overlayChanged(OverlayChangeEvent e) {
-				if(e.getOverlay() instanceof LabeledOverlay) {
-					LabeledOverlay lOv = (LabeledOverlay) e.getOverlay();
-					ctx.display.updateText(lOv.id, lOv.label(ctx));
-				}
+				e.getOverlay().update(ctx);
 			}
 
 			@Override
 			public void overlayRemoved(OverlayChangeEvent e) {
-				ctx.display.removeElement(e.getOverlay().id);
+				e.getOverlay().delete(ctx);
 			}
 
 			@Override
 			public void overlayCreated(OverlayChangeEvent e) {
-				Overlay overlay = e.getOverlay();
-				if(overlay instanceof PositionOverlay) {
-					PositionOverlay posOv = (PositionOverlay) overlay;
-					VisualCoords center = ctx.display.getCenter(posOv.getPosition());
-					String text = null;
-					if(overlay instanceof LabeledOverlay) {
-						LabeledOverlay lOv = (LabeledOverlay) overlay;
-						text = lOv.label(ctx);
-					}
-					ctx.display.drawFromTemplate(center, overlay.getTemplateId(), text, overlay.id);
-				}
+				e.getOverlay().create(ctx);
 			}
 		};
 		ctx.board.addCounterListener(boardListener);
@@ -183,7 +170,7 @@ public class ClientEngine implements EntryPoint {
 		
 		for (int i = 0; i < ctx.ops.size(); ++i) {
 			Operation op = ctx.ops.get(i);			
-			op.updateBoard(ctx.board);
+			op.updateBoard(ctx);
 			op.draw(ctx);
 			op.postServer(ctx);			
 			if(i >= startDetailsFrom) {

@@ -291,6 +291,13 @@ public abstract class Board implements Serializable {
   
   private List<OverlayListener> _overlayListeners = new ArrayList<OverlayListener>();
   
+  public void fireOverlayChanged(final OverlayChangeEvent overlayChangeEvent) {
+    for(OverlayListener listener : _overlayListeners) {
+    	listener.overlayChanged(overlayChangeEvent);
+    }
+    
+  }
+  
   public void fireOverlayRemoved(final OverlayChangeEvent overlayChangeEvent) {
     for(OverlayListener listener : _overlayListeners) {
     	listener.overlayRemoved(overlayChangeEvent);
@@ -301,13 +308,6 @@ public abstract class Board implements Serializable {
   public void fireOverlayCreated(final OverlayChangeEvent overlayChangeEvent) {
     for(OverlayListener listener : _overlayListeners) {
     	listener.overlayCreated(overlayChangeEvent);
-    }
-    
-  }
-  
-  public void fireOverlayChanged(final OverlayChangeEvent overlayChangeEvent) {
-    for(OverlayListener listener : _overlayListeners) {
-    	listener.overlayChanged(overlayChangeEvent);
     }
     
   }

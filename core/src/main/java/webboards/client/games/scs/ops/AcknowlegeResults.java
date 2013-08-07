@@ -32,8 +32,8 @@ public class AcknowlegeResults extends Operation {
 	}
 
 	@Override
-	public void updateBoard(Board b) {
-		SCSBoard board = (SCSBoard) b;
+	public void updateBoard(GameCtx ctx) {
+		SCSBoard board = (SCSBoard) ctx.board;
 		board.combatResultsShown.remove(target);
 		
 		Collection<Hex> combatAttacks = board.getAttacking(target);
@@ -49,7 +49,7 @@ public class AcknowlegeResults extends Operation {
 		}		
 //		apply(board);
 	}
-
+/*
 	private void apply(SCSBoard board) {
 		console("apply "+result);
 		{
@@ -65,13 +65,13 @@ public class AcknowlegeResults extends Operation {
 			result.D += apply(stepsToRemove, units, board);
 		}		
 	}
-
+*/
 	public static native void console(Object s) /*-{
 		if (console) {
 			console.log(s);
 		}
 	}-*/;
-	
+	/*
 	private int apply(int stepsToRemove, List<SCSCounter> units, SCSBoard board) {
 		int stepsAvailable = getSteps(units);
 		console("trying to kill "+stepsToRemove+" from "+stepsAvailable);
@@ -103,7 +103,7 @@ public class AcknowlegeResults extends Operation {
 		}
 		return 0;
 	}
-
+*/
 	private List<SCSCounter> getUnits(SCSBoard board, Collection<Hex> hexes) {
 		console("getUnits from hexes: "+hexes);
 		if(hexes == null) {

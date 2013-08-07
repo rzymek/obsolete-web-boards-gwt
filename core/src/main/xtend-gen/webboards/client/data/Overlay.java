@@ -2,6 +2,7 @@ package webboards.client.data;
 
 import com.google.common.base.Objects;
 import java.io.Serializable;
+import webboards.client.data.GameCtx;
 
 @SuppressWarnings("all")
 public abstract class Overlay implements Serializable {
@@ -27,5 +28,15 @@ public abstract class Overlay implements Serializable {
       _xifexpression = false;
     }
     return _xifexpression;
+  }
+  
+  public void create(final GameCtx ctx) {
+  }
+  
+  public void update(final GameCtx ctx) {
+  }
+  
+  public void delete(final GameCtx ctx) {
+    ctx.display.removeElement(this.id);
   }
 }

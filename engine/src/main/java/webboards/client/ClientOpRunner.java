@@ -36,7 +36,7 @@ public class ClientOpRunner extends AbstractCallback<Operation> implements OpRun
 	}
 
 	private void preServerExec(Operation op) {
-		op.updateBoard(ctx.board);
+		op.updateBoard(ctx);
 		op.draw(ctx);
 	}
 	

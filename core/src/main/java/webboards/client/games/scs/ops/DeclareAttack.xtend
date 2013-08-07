@@ -1,6 +1,6 @@
                                                                                                                   package webboards.client.games.scs.ops
 
-import webboards.client.data.Board
+import webboards.client.data.GameCtx
 import webboards.client.games.Hex
 import webboards.client.ops.Operation
 
@@ -16,12 +16,12 @@ class DeclareAttack extends Operation {
 		this.target = target
 	}
 	
-	override updateBoard(Board board) {
-		var overlay = board.overlaysAt(target).filter[it instanceof CombatOverlay].head as CombatOverlay
+	override updateBoard(GameCtx ctx) {
+		var overlay = ctx.board.overlaysAt(target).filter[it instanceof CombatOverlay].head as CombatOverlay
 		if(overlay == null) {
-			overlay = board.placeAt(new CombatOverlay(target), target);
+			overlay = ctx.board.placeAt(new CombatOverlay(ctx, target), target);
 		}
-		overlay.toggle(board, from)
+		overlay.toggle(ctx, from)
 	}
 /* 
 	override draw(GameCtx ctx) {
